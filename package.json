@@ -1,0 +1,30 @@
+{
+  "name": "tinyurl",
+  "version": "1.0.0",
+  "description": "system design 1st project",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "dist/handler.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "esbuild src/handler/handler.ts --bundle --platform=node --target=node20 --outfile=dist/handler.js",
+    "dev": "ts-node src/local.ts",
+    "clean": "rm -rf dist",
+    "test": "echo \"No tests yet\""
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1000.0",
+    "@aws-sdk/lib-dynamodb": "^3.1000.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.161",
+    "@types/node": "^25.3.2",
+    "esbuild": "^0.27.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
