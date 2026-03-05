@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "esbuild src/handler/handler.ts --bundle --platform=node --target=node20 --outfile=dist/handler.js",
+    "zip": "powershell Compress-Archive -Path dist/* -DestinationPath lambda.zip -Force",
     "dev": "ts-node src/local.ts",
     "clean": "rm -rf dist",
     "test": "echo \"No tests yet\""
