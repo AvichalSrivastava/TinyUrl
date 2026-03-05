@@ -9,27 +9,24 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
 
   try {
-    const routeKey = `${event.httpMethod} ${event.resource}`;
-    console.log("routeKey: ",routeKey);
+    const method = event.httpMethod;
+    const path = event.path;
+    console.log("httpMethod:", event.httpMethod);
+    console.log("resource:", event.resource);
+    console.log("path:", event.path);
     
-    switch (routeKey) {
-    case "POST /shorten":
-        return createUrlHandler(event);
-
-    case "GET /{shortCode}":
-        return RedirectUrlHandler(event);
-
-    default:
-        return {
-        statusCode: 404,
-        body: "Not Found"
-        };
+    if (method === "POST" && path.endsWith("/shorten")) {
+      return createUrlHandler(event);
     }
 
-    return {
-      statusCode: 404,
-      body: "Not Found"
-    };
+    if (method === "GET") {
+      return RedirectUrlHandler(event);
+    }
+
+      return {
+        statusCode: 404,
+        body: "Not Found"
+      };
   } catch (error) {
     console.error(error);
 
