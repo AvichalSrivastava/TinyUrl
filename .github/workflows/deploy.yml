@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -24,8 +25,11 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Verify build
+        run: ls -lah dist
+
       - name: Zip Lambda
-        run: zip -r lambda.zip dist
+        run: zip -j lambda.zip dist/handler.js
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -38,4 +42,5 @@ jobs:
         run: |
           aws lambda update-function-code \
           --function-name tinyurl-service \
-          --zip-file fileb://lambda.zip
+          --zip-file fileb://lambda.zip \
+          --region eu-west-1
