@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "description": "system design 1st project",
   "license": "ISC",
-  "author": "",
   "type": "commonjs",
   "main": "dist/handler.js",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "build": "esbuild src/handler/handler.ts --bundle --platform=node --target=node20 --outfile=dist/handler.js",
-    "zip": "powershell Compress-Archive -Path dist/* -DestinationPath lambda.zip -Force",
-    "dev": "ts-node src/local.ts",
-    "clean": "rm -rf dist",
+    "build": "esbuild src/handler/handler.ts --bundle --platform=node --target=node20 --minify --outfile=dist/handler.js",
+    "zip": "zip -r lambda.zip dist",
+    "dev": "ts-node --transpile-only src/local.ts",
+    "clean": "npx rimraf dist",
     "test": "echo \"No tests yet\""
   },
   "dependencies": {
@@ -26,6 +25,7 @@
     "@types/node": "^25.3.2",
     "esbuild": "^0.27.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "rimraf": "^5.0.0"
   }
 }
