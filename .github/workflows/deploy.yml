@@ -40,6 +40,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: eu-west-1
 
+      - name: Verify AWS
+        run: aws sts get-caller-identity
+
       - name: Deploy Lambda
         run: |
           aws lambda update-function-code \
