@@ -2,54 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>TinyURL - Serverless URL Shortener</title>
-<style>
-body{
-  font-family: Arial, Helvetica, sans-serif;
-  margin:40px;
-  line-height:1.6;
-  background:#fafafa;
-}
-
-h1,h2,h3{
-  color:#2c3e50;
-}
-
-code{
-  background:#eee;
-  padding:3px 6px;
-  border-radius:4px;
-}
-
-pre{
-  background:#1e1e1e;
-  color:#f4f4f4;
-  padding:15px;
-  border-radius:6px;
-  overflow:auto;
-}
-
-.section{
-  margin-bottom:40px;
-}
-
-.arch{
-  background:#ffffff;
-  border-left:5px solid #3498db;
-  padding:15px;
-}
-
-ul{
-  margin-left:20px;
-}
-
-.api{
-  background:#fff;
-  border:1px solid #ddd;
-  padding:20px;
-  border-radius:8px;
-}
-</style>
 </head>
 
 <body>
