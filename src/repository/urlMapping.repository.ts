@@ -1,5 +1,5 @@
-const { DynamoDBClient  } = require("@aws-sdk/client-dynamodb");
-import { DynamoDBDocumentClient, PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBClient  } from "@aws-sdk/client-dynamodb";
+import {  PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 
 const client = new DynamoDBClient({});
 

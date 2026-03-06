@@ -1,6 +1,7 @@
+import { getValkeyClient } from '../common/cache/velkeyClient';
 import { CREATE_URL_BODY, REDIRECT_URL_BODY , URL} from '../common/interface/url.interface';
 import { generateUniqueCode } from '../common/utils/url.utils';
-import { addURL, findByURLCode} from '../db/dynamoClient';
+import { addURL, findByURLCode} from '../repository/urlMapping.repository';
 
 export const createURLService = async (body: CREATE_URL_BODY ) : Promise<URL>=>{
     try {
@@ -20,7 +21,14 @@ export const createURLService = async (body: CREATE_URL_BODY ) : Promise<URL>=>{
 export const RedirectURLService = async (shortCode?: string ) : Promise<CREATE_URL_BODY>=>{
     try {
         if(shortCode){
+            const redis = getValkeyClient();
+            // const cacheKey = `url:${shortCode}`;
+            // const cached = await redis.get(cacheKey);
+            // if (cached) {
+            //     return { url: cached };
+            // }
             const Item = await findByURLCode(shortCode);
+            //await redis.set(cacheKey, String(Item?.originalUrl || "#"), "EX", 3600);
             return { url: String(Item?.originalUrl || "#") };
         }
         throw Error('service Error')
