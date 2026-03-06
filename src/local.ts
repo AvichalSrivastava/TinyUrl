@@ -30,7 +30,6 @@ export const event2 = {
 
 async function run() {
   const result = await handler(event2 as any);
-  console.log("Lambda response:");
   console.log(JSON.stringify(result, null, 2));
 }
 
