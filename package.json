@@ -9,7 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "esbuild src/handler/handler.ts --bundle --platform=node --target=node20 --minify --outfile=dist/handler.js",
+    "build": "esbuild src/handler/handler.ts --bundle --platform=node --target=node20 --outfile=dist/handler.js",
     "zip": "zip -r lambda.zip dist",
     "dev": "ts-node --transpile-only src/local.ts",
     "clean": "npx rimraf dist",

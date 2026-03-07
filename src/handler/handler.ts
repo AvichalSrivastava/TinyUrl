@@ -21,7 +21,7 @@ export const handler = async (
         return RedirectUrlHandler(event);
     
     case "GET /redis":
-      return RedisConnectHandler(event);
+        return RedisConnectHandler(event);
 
     default:
         return {
@@ -33,7 +33,7 @@ export const handler = async (
   } catch (error) {
     return {
       statusCode: 500,
-      body: "Internal Server Error"
+      body: JSON.stringify(error)
     };
   }
 };
