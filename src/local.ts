@@ -41,7 +41,7 @@ export const event3 = {
 };
 
 async function run() {
-  const result = await handler(event3 as any);
+  const result = await handler(event2 as any);
   console.log(JSON.stringify(result, null, 2));
 }
 
