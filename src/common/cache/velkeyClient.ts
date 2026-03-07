@@ -9,8 +9,7 @@ export const getValkeyClient = () => {
       redis = new Redis({
         host: process.env.VALKEY_HOST,
         port: 6379,
-        maxRetriesPerRequest: 3,
-        enableOfflineQueue: false
+        maxRetriesPerRequest: 1
       });
   }
   redis.on("connect", () => {

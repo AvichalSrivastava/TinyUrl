@@ -3,6 +3,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { createUrlHandler } from "./createUrl";
 import { RedirectUrlHandler } from "./redirectUrl";
+import { RedisConnectHandler } from './redisConnect'
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -18,6 +19,9 @@ export const handler = async (
 
     case "GET /{shortCode}":
         return RedirectUrlHandler(event);
+    
+    case "GET /redis":
+      return RedisConnectHandler(event);
 
     default:
         return {
