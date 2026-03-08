@@ -6,17 +6,24 @@ let redis: Redis;
 
 export const getValkeyClient = () => {
   if (!redis) {
-      redis = new Redis({
-        host: process.env.VALKEY_HOST,
-        port: 6379,
-        maxRetriesPerRequest: 1
-      });
+    redis = new Redis({
+      host: process.env.VALKEY_HOST,
+      port: 6379,
+      lazyConnect: true,
+      enableOfflineQueue: false,
+      maxRetriesPerRequest: 1,
+      connectTimeout: 2000
+    });
+
+    redis.on("connect", () => {
+      console.log("Connected to Redis");
+    });
+
+    redis.on("error", (err) => {
+      console.error("Redis error:", err);
+      throw err;
+    });
   }
-  redis.on("connect", () => {
-    console.log("Connected to Redis");
-  });
-  redis.on("error", (err) => {
-    console.error("Redis error:", err);
-  });
+
   return redis;
 };
