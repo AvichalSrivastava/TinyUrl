@@ -23,6 +23,8 @@ export const RedirectURLService = async (shortCode?: string ) : Promise<CREATE_U
         if(shortCode){
             const Item = await findByURLCode(shortCode);
             //await redis.set(cacheKey, String(Item?.originalUrl || "#"), "EX", 3600);
+            console.log("Got result from DB: ",JSON.stringify(Item));
+            
             return { url: String(Item?.originalUrl || "#") };
         }
         throw Error('service Error')

@@ -9,5 +9,5 @@ export const checkRedisConnection= async ()=>{
       return { url: cached };
     }
     await redis.set(cacheKey, String('https://www.npmjs.com/package/uuid#uuidv7options-buffer-offset'), "EX", 3600);
-    return redis;
+    return { url: '#' };
 };
