@@ -1,14 +1,5 @@
 import { getValkeyClient } from "../common/cache/velkeyClient";
 
-const withTimeout = async <T>(promise: Promise<T>, ms: number, message: string): Promise<T> => {
-  return (await Promise.race([
-    promise,
-    new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error(message)), ms)
-    ),
-  ])) as T;
-};
-
 export const checkRedisConnection = async () => {
   const redis = await getValkeyClient();
     const cacheKey = `url:32CGk5W`;

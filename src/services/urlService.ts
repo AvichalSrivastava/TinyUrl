@@ -21,10 +21,22 @@ export const createURLService = async (body: CREATE_URL_BODY ) : Promise<URL>=>{
 export const RedirectURLService = async (shortCode?: string ) : Promise<CREATE_URL_BODY>=>{
     try {
         if(shortCode){
+            const redis = await getValkeyClient();
+            const cacheKey = `url:${shortCode}`;
+            const cached = await redis.get(cacheKey);
+            console.log("cached found: ", cached);
+
+            if (cached) {
+            return { url: cached };
+            }
             const Item = await findByURLCode(shortCode);
-            //await redis.set(cacheKey, String(Item?.originalUrl || "#"), "EX", 3600);
-            console.log("Got result from DB: ",JSON.stringify(Item));
-            
+            await redis.set(
+                cacheKey,
+                String(Item?.originalUrl || "#"),
+                {
+                EX: 3600,
+                }
+            );
             return { url: String(Item?.originalUrl || "#") };
         }
         throw Error('service Error')
