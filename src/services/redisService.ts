@@ -3,6 +3,8 @@ import { getValkeyClient } from "../common/cache/velkeyClient";
 export const checkRedisConnection= async ()=>{
     const redis = getValkeyClient();
     // const cacheKey = `url:${shortCode}`;
+    console.log("redis: ",JSON.stringify(redis));
+    
     const cacheKey = `url:32CGk5W`;
     const cached = await redis.get(cacheKey);
     if (cached) {
