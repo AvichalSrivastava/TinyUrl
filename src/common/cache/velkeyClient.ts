@@ -6,7 +6,7 @@ export const getValkeyClient = async () => {
   const host = process.env.VALKEY_HOST;
 
   if (!host) {
-    throw new Error("VALKEY_HOST is not configured");
+    throw new Error("VALKEY is not configured");
   }
 
   const client = createClient({
@@ -33,7 +33,7 @@ export const getValkeyClient = async () => {
     ]);
   } catch (err) {
     try {
-      await client.destroy();
+      await client.quit();
     } catch {
       // ignore
     }

@@ -11,39 +11,22 @@ const withTimeout = async <T>(promise: Promise<T>, ms: number, message: string):
 
 export const checkRedisConnection = async () => {
   const redis = await getValkeyClient();
-
-  try {
     const cacheKey = `url:32CGk5W`;
 
-    const cached = await withTimeout(
-      redis.get(cacheKey),
-      2000,
-      "Redis GET timeout"
-    );
+    const cached = await redis.get(cacheKey);
     console.log("cached found: ", cached);
 
     if (cached) {
       return { url: cached };
     }
 
-    await withTimeout(
-      redis.set(
+    await redis.set(
         cacheKey,
         String("https://www.npmjs.com/package/uuid#uuidv7options-buffer-offset"),
         {
           EX: 3600,
         }
-      ),
-      2000,
-      "Redis SET timeout"
-    );
+      );
 
     return { url: "#" };
-  } finally {
-    try {
-      await redis.quit();
-    } catch {
-      // ignore
-    }
-  }
 };
