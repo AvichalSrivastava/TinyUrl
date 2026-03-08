@@ -10,7 +10,8 @@ export const getValkeyClient = async () => {
   }
 
   const client = createClient({
-    url: `redis://${host}:6379`,
+    // Valkey cluster has "encryption in transit" enabled, so use TLS
+    url: `rediss://${host}:6379`,
     socket: {
       connectTimeout: 2000,
       // Disable automatic reconnect loops so we fail fast in Lambda
