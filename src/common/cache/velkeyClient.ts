@@ -32,7 +32,7 @@ export const getValkeyClient = async () => {
     ]);
   } catch (err) {
     try {
-      await client.disconnect();
+      await client.destroy();
     } catch {
       // ignore
     }
