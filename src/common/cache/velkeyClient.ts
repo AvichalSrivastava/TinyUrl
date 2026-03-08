@@ -21,7 +21,7 @@ export const getValkeyClient = () => {
     
       const cacheKey = `url:32CGk5W`;
       const cached = await redis.get(cacheKey);
-      console.log("cached found: ", cached);
+      console.log("redis on connection cached found: ", cached);
       
       if (cached) {
         return { url: cached };
