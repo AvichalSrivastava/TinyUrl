@@ -10,7 +10,7 @@ export const getValkeyClient = () => {
       host: process.env.VALKEY_HOST,
       port: 6379,
       lazyConnect: true,
-      enableOfflineQueue: false,
+      //enableOfflineQueue: false,
       maxRetriesPerRequest: 3,
       connectTimeout: 2000
     });
