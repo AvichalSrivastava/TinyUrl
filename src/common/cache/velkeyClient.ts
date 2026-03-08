@@ -1,21 +1,14 @@
-import Redis from "ioredis";
+import { createClient } from "redis";
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-let redis: Redis;
+//let redis: Redis;
 
-export const getValkeyClient = () => {
-  if (!redis) {
-    redis = new Redis({
-      host: process.env.VALKEY_HOST,
-      port: 6379,
-      lazyConnect: true,
-      //enableOfflineQueue: false,
-      maxRetriesPerRequest: 3,
-      connectTimeout: 2000
-    });
-
-  }
-
-  return redis;
+export const getValkeyClient = async() => {
+  const client = await createClient({
+    url: `redis://${process.env.VALKEY_HOST}:6379`,
+  })
+  .on("error", (err) =>{ console.log("Redis Client Error", err); throw err;})
+  .connect();
+  return client;
 };

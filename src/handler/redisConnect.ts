@@ -3,16 +3,16 @@ import { checkRedisConnection } from "../services/redisService";
 
 export const RedisConnectHandler = async (event: APIGatewayProxyEvent, context?: Context): Promise<APIGatewayProxyResult> => {
     try {
-        const redis = await checkRedisConnection();
+        const response = await checkRedisConnection();
         return {
             statusCode: 200,
-            body: JSON.stringify(redis)
+            body: JSON.stringify(response)
         }
     } catch(e){
         console.log("RedisConnectHandler error: ",e.message ?? '')
         return {
             statusCode: 500,
-            body: JSON.stringify(e)
+            body: JSON.stringify(e.message)
         }
     }
 }
