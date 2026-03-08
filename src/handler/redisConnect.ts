@@ -9,6 +9,7 @@ export const RedisConnectHandler = async (event: APIGatewayProxyEvent, context?:
             body: JSON.stringify(redis)
         }
     } catch(e){
+        console.log("RedisConnectHandler error: ",e.message ?? '')
         return {
             statusCode: 500,
             body: JSON.stringify(e)

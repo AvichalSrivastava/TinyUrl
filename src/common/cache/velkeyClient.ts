@@ -11,7 +11,7 @@ export const getValkeyClient = () => {
       port: 6379,
       lazyConnect: true,
       enableOfflineQueue: false,
-      maxRetriesPerRequest: 1,
+      maxRetriesPerRequest: 3,
       connectTimeout: 2000
     });
 

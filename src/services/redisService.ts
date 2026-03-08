@@ -7,6 +7,8 @@ export const checkRedisConnection= async ()=>{
     
     const cacheKey = `url:32CGk5W`;
     const cached = await redis.get(cacheKey);
+    console.log("cached found: ", cached);
+    
     if (cached) {
       return { url: cached };
     }
