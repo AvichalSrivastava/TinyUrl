@@ -15,10 +15,19 @@ export const getValkeyClient = () => {
       connectTimeout: 2000
     });
 
-    // redis.on("connect", () => {
-    //   console.log("Connected to Redis");
+    redis.on("connect", async() => {
+      console.log("Connected to Redis");
+      console.log("redis: ",JSON.stringify(redis));
+    
+      const cacheKey = `url:32CGk5W`;
+      const cached = await redis.get(cacheKey);
+      console.log("cached found: ", cached);
       
-    // });
+      if (cached) {
+        return { url: cached };
+      }
+      await redis.set(cacheKey, String('https://www.npmjs.com/package/uuid#uuidv7options-buffer-offset'), "EX", 3600);
+    });
 
     redis.on("error", (err) => {
       console.error("Redis error:", err);
