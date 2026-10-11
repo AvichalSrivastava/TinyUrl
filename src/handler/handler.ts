@@ -1,9 +1,16 @@
 // src/handler.ts
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { AppError } from "../common/errors/app.error";
 import { createUrlHandler } from "./createUrl";
 import { RedirectUrlHandler } from "./redirectUrl";
 import { RedisConnectHandler } from './redisConnect'
+
+const jsonResponse = (statusCode: number, body: unknown): APIGatewayProxyResult => ({
+  statusCode,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body)
+});
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -12,28 +19,27 @@ export const handler = async (
   try {
     const routeKey = `${event.httpMethod} ${event.resource}`;
     console.log("routeKey: ",routeKey);
-    
+
+    // `return await` so rejections are caught below instead of escaping as a Lambda error (502)
     switch (routeKey) {
     case "POST /shorten":
-        return createUrlHandler(event);
+        return await createUrlHandler(event);
 
     case "GET /{shortCode}":
-        return RedirectUrlHandler(event);
-    
+        return await RedirectUrlHandler(event);
+
     case "GET /redis":
-        return RedisConnectHandler(event);
+        return await RedisConnectHandler(event);
 
     default:
-        return {
-        statusCode: 404,
-        body: "Not Found"
-        };
+        return jsonResponse(404, { message: "Not Found" });
     }
 
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: "Something went wrong!!!"
-    };
+    if (error instanceof AppError) {
+      return jsonResponse(error.statusCode, { message: error.message });
+    }
+    console.error("Unhandled error:", error);
+    return jsonResponse(500, { message: "Something went wrong" });
   }
 };

@@ -3,6 +3,7 @@ import {  PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 
 const client = new DynamoDBClient({});
 
+// Throws ConditionalCheckFailedException if the short code is already taken
 export async function addURL(code: string, url: string) {
   const params = {
     TableName: "UrlMappings",
@@ -15,20 +16,16 @@ export async function addURL(code: string, url: string) {
     ConditionExpression: "attribute_not_exists(shortCode)"
   };
 
-  try {
-    await client.send(new PutCommand(params));
+  await client.send(new PutCommand(params));
 
-    return {
-      shortCode: code,
-      originalUrl: url
-    };
-
-  } catch (error) {
-    console.error("DB Error:", error);
-    throw error;
-  }
+  return {
+    shortCode: code,
+    originalUrl: url
+  };
 }
 
+// Returns undefined when the code does not exist. DynamoDB errors propagate to the caller,
+// so a transient failure is never mistaken for (and cached as) "not found".
 export async function findByURLCode(code: string) {
   const params = {
     TableName: "UrlMappings",
@@ -37,12 +34,6 @@ export async function findByURLCode(code: string) {
     }
   };
 
-  try {
-    const command = new GetCommand (params);
-    const data = await client.send(command);
-    console.log("data", data.Item);
-    return data.Item;
-  } catch (err) {
-    console.error("DB Error: ", err);
-  }
+  const data = await client.send(new GetCommand(params));
+  return data.Item;
 };
